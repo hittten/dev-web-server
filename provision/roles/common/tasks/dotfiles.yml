@@ -1,0 +1,5 @@
+---
+- include_vars: dotfiles.yml
+- name: Copy dotfiles
+  copy: src=dotfiles/{{ item }} dest={{ home }}/{{ item }}
+  with_items: "{{ dotfiles }}"

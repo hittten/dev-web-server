@@ -1,0 +1,8 @@
+---
+packages:
+    - git
+    - curl
+    - wget
+    - ntp
+    - vim
+    - htop

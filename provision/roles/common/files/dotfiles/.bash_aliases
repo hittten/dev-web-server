@@ -1,0 +1,7 @@
+alias ll='ls -l'
+alias la='ls -la'
+alias sl='ls'
+alias cd..='cd ..'
+alias gti='git'
+alias gz='tar czvf'
+alias ugz='tar xzvf'

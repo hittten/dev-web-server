@@ -4,16 +4,15 @@
 # Vagrant API version
 VAGRANTFILE_API_VERSION = '2'
 
-# Set the ip machine in order to work with your router gateway.
-# You can set almost any IP depend of your router configuration.
-# Example: router gateway: 192.168.1.1 => 192.168.2.xxx (the 2 can be any number except 1)
-# Example: router gateway: 10.1.1.1 => 10.1.2.xxx (the 2 can be any number except 1)
+if File.file?('config.rb')
+  require_relative 'config.rb'
+end
 
-# Note: if you don't have any special config in your router, you can leave the default value.
-VIRTUAL_MACHINE_IP = '192.168.2.100'
-
-# The memory RAM of your virtual machine
-VIRTUAL_MACHINE_MEMORY = '2048'
+VIRTUAL_MACHINE_IP= '192.168.2.100' unless defined? VIRTUAL_MACHINE_IP
+VIRTUAL_MACHINE_MEMORY = '2048' unless defined? VIRTUAL_MACHINE_MEMORY
+GIT_CONFIG_FILE = '~/.gitconfig' unless defined? GIT_CONFIG_FILE
+GIT_IGNORE_FILE = '~/.gitignore' unless defined? GIT_IGNORE_FILE
+SSH_PATH = '~/.ssh' unless defined? SSH_PATH
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'ubuntu/trusty64'
@@ -34,5 +33,33 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ['setextradata', :id, 'VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root', '1']
     vb.customize ['modifyvm', :id, '--memory', VIRTUAL_MACHINE_MEMORY]
     vb.name = 'hittten_dev_web_server'
+  end
+
+  if File.exists? File.expand_path(GIT_CONFIG_FILE)
+    config.vm.provision 'file', source: GIT_CONFIG_FILE, destination: '.gitconfig'
+  end
+
+  if File.exists? File.expand_path(GIT_IGNORE_FILE)
+    config.vm.provision 'file', source: GIT_IGNORE_FILE, destination: '.gitignore'
+  end
+
+  if File.exists? File.expand_path(SSH_PATH)
+    config.vm.provision 'shell', inline: 'chmod -f 664 .ssh/*; true'
+    Dir.foreach(File.expand_path(SSH_PATH)) do |item|
+      next if item == '.' or item == '..'
+      config.vm.provision 'file', source: SSH_PATH + '/' +item, destination: '.ssh/' + item
+    end
+    config.vm.provision 'shell', path: 'ssh.sh'
+  end
+
+  if windows_host #verify is if a windows host
+    config.vm.provision 'ansible_local' do |ansible|
+      ansible.playbook = 'provision/vagrant.yml'
+      ansible.install = true
+    end
+  else
+    config.vm.provision :ansible do |ansible|
+      ansible.playbook = 'provision/vagrant.yml'
+    end
   end
 end
