@@ -6,18 +6,23 @@
 ## What do you get?
 A Virtualbox virtual machine with Ubuntu Trusty64 provisioned with this:
 
-+ Common Packages:
++ **Common Role:**
     - git
     - curl
     - wget
     - ntp
     - vim
     - htop
-+ dot files:
-    - [~/.bash_aliases](provision/roles/common/files/dotfiles/.bash_aliases)
-    - [~/.bash_colors](provision/roles/common/files/dotfiles/.bash_colors)
-    - [~/.bashrc](provision/roles/common/files/dotfiles/.bashrc)
-+ A copy of your local .gitconfig, .gitignore and .ssh folder
+    - dot files: [~/.bash_aliases](provision/roles/common/files/dotfiles/.bash_aliases), [~/.bash_colors](provision/roles/common/files/dotfiles/.bash_colors), [~/.bashrc](provision/roles/common/files/dotfiles/.bashrc)
+    - A copy of your local .gitconfig, .gitignore and .ssh folder
++ **Webtier Role:**
+    - apache2 with modules: _actions, alias, fastcgi, rewrite, ssl, wsgi_
+    - php with packages: _php5-dev, php-pear, php5-xdebug, php5-curl, php5-mcrypt, php5-imagick, php5-intl, php5-gd, phpunit, php5-xsl, php5-mongo, php5-mysql_
+    - composer
+    - nodejs
+    - npm with components: _bower, gulp-cli, grunt-cli, live-server_
+    - python with packages: _python-setuptools, python-mysqldb, python-pip, python-virtualenv_
+    - Oracle Java
 
 ## 1. Dependencies
 You must have installed the following tools in order to work:

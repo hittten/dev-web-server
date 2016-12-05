@@ -18,6 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'ubuntu/trusty64'
   config.vm.hostname = 'hitttenDevWebServer'
   config.vm.network 'private_network', ip: VIRTUAL_MACHINE_IP
+  config.vm.network 'forwarded_port', guest: 80, host: 80
   config.ssh.forward_agent = true
 
   windows_host = (RUBY_PLATFORM =~ /mingw/) ? true : false
@@ -49,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       next if item == '.' or item == '..'
       config.vm.provision 'file', source: SSH_PATH + '/' +item, destination: '.ssh/' + item
     end
-    config.vm.provision 'shell', path: 'ssh.sh'
+    config.vm.provision 'shell', path: 'fix_ssh_permissions.sh'
   end
 
   if windows_host #verify is if a windows host

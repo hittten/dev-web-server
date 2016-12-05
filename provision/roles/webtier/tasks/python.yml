@@ -1,0 +1,11 @@
+---
+- include_vars: python.yml
+- name: Install python
+  become: yes
+  apt:  pkg=python state=latest
+
+# Python Packages
+- name: Install python packages
+  become: yes
+  apt:  pkg={{ item }} state=latest
+  with_items: "{{ python_packages }}"

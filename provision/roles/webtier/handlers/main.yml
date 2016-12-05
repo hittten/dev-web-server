@@ -1,0 +1,8 @@
+---
+- name: reload php5-fpm
+  become: yes
+  service: name=php5-fpm enabled=yes state=reloaded
+
+- name: reload apache2
+  become: yes
+  service: name=apache2 enabled=yes state=reloaded

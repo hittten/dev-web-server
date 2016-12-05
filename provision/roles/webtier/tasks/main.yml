@@ -1,0 +1,6 @@
+---
+- include: apache2.yml
+- include: php5.yml
+- include: composer.yml
+- include: npm.yml
+- include: java.yml

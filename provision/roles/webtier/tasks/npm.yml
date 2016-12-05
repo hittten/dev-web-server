@@ -1,0 +1,18 @@
+---
+- include_vars: npm.yml
+- name: adding apt npm/nodejs repository
+  become: yes
+  shell: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+
+- name: Install node and npm
+  become: yes
+  apt:  pkg=nodejs state=latest
+
+- name: Install build essential for compile
+  become: yes
+  apt:  pkg=build-essential state=latest
+
+- name: Install npm components
+  become: yes
+  npm: name={{ item }} global=yes
+  with_items: "{{ npm_components }}"

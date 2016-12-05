@@ -1,0 +1,12 @@
+---
+apache_install_modules:
+  - libapache2-mod-fastcgi
+  - libapache2-mod-wsgi
+
+apache_enable_modules:
+  - actions
+  - alias
+  - fastcgi
+  - rewrite
+  - ssl
+  - wsgi

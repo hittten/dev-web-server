@@ -1,0 +1,6 @@
+---
+python_packages:
+  - python-setuptools
+  - python-mysqldb
+  - python-pip
+  - python-virtualenv

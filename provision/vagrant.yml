@@ -6,3 +6,4 @@
       home: /home/{{ user }}
   roles:
       - common
+      - webtier

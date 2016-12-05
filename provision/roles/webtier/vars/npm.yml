@@ -1,0 +1,6 @@
+---
+npm_components:
+  - bower
+  - gulp-cli
+  - grunt-cli
+  - live-server
