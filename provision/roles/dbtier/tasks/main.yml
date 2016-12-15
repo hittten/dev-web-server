@@ -1,0 +1,36 @@
+---
+- name: Install MongoDB
+  become: yes
+  apt:  pkg=mongodb state=latest
+
+- name: Install MySQL
+  become: yes
+  apt:  pkg=mysql-server state=latest
+
+- name: Add GPH-KEY ElasticSearch
+  become: yes
+  apt_key: url=https://packages.elastic.co/GPG-KEY-elasticsearch state=present
+
+- name: Add source package ElasticSearch
+  become: yes
+  apt_repository: repo='deb http://packages.elastic.co/elasticsearch/2.x/debian stable main' state=present
+  register: pag_elastic_result
+
+- name: Update APT
+  become: yes
+  apt:  update_cache=yes
+  when: pag_elastic_result.changed
+
+- name: Install ElasticSearch
+  become: yes
+  apt: pkg=elasticsearch state=latest
+
+- name: Autoboot Elasticsearch
+  become: yes
+  command: update-rc.d elasticsearch defaults 95 10
+
+- name: Config file Elasticsearch
+  become: yes
+  copy: src=elasticsearch/elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml owner={{ user }} group=elasticsearch mode=0750
+  notify:
+    - reload elasticsearch

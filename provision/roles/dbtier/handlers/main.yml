@@ -1,0 +1,12 @@
+---
+- name: reload mongodb
+  become: yes
+  service: name=mongodb enabled=yes state=reloaded
+
+- name: reload mysql
+  become: yes
+  service: name=mysql enabled=yes state=reloaded
+
+- name: reload elasticsearch
+  become: yes
+  service: name=elasticsearch enabled=yes state=reloaded

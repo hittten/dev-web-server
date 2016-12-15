@@ -23,6 +23,10 @@ A Virtualbox virtual machine with Ubuntu Trusty64 provisioned with this:
     - npm with components: _bower, gulp-cli, grunt-cli, live-server_
     - python with packages: _python-setuptools, python-mysqldb, python-pip, python-virtualenv_
     - Oracle Java
++ **DBtier Role:**
+    - MySQL
+    - MongoDB
+    - ElasticSearch
 
 ## 1. Dependencies
 You must have installed the following tools in order to work:
