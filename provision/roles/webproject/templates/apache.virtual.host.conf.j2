@@ -1,0 +1,30 @@
+<VirtualHost {% if host is defined %}{{ host }}{% elif ssl is defined and ssl == 'true' %}*:443{% else %}*:80{% endif %}>
+    ServerAdmin webmaster@{{ domain }}
+    ServerName {{ domain }}
+    ServerAlias www.{{ domain }}
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ domain }}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ domain }}_access.log combined
+
+    {% if ssl is defined and ssl == 'true' %}SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/{{ domain }}.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/{{ domain }}.key
+    {% endif %}
+
+    DocumentRoot {% if public_html is defined %}{{ public_html }}{% else %}{{ workspace }}{% endif %}
+
+    <Directory {% if public_html is defined %}{{ public_html }}{% else %}{{ workspace }}{% endif %}>
+        Require all granted
+        AllowOverride All
+    </Directory>
+
+    <IfModule mod_fastcgi.c>
+        AddType application/x-httpd-fastphp5 .php
+        Action application/x-httpd-fastphp5 /php5-fcgi
+        Alias /php5-fcgi /usr/lib/cgi-bin/php5-http{% if ssl is defined and ssl == 'true' %}s{% endif %}-{{ domain }}-fcgi
+        FastCgiExternalServer /usr/lib/cgi-bin/php5-http{% if ssl is defined and ssl == 'true' %}s{% endif %}-{{ domain }}-fcgi -socket /var/run/{{ domain }}.sock -pass-header Authorization
+        <Directory /usr/lib/cgi-bin>
+            Require all granted
+        </Directory>
+    </IfModule>
+</VirtualHost>

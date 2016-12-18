@@ -27,6 +27,11 @@ A Virtualbox virtual machine with Ubuntu Trusty64 provisioned with this:
     - MySQL
     - MongoDB
     - ElasticSearch
++ **Webproject Role:**
+    - Clone repositories
+    - SSL apache config
+    - Apache virtual host config
+    - Shell script
 
 ## 1. Dependencies
 You must have installed the following tools in order to work:
@@ -86,6 +91,46 @@ Workspace/
 mkdir hittten
 cd hittten
 git clone git@github.com:hittten/dev-web-server.git
+```
+- Setup your projects config file:
+Create _**projects.yml**_ in the config directory _**(../dev-web-server/config/projects.yml)**_ and build your projects:
+
+Parameter | Type | Required | Default | Comments
+--------- | ---- | -------- | ------- | --------
+domain | string | Yes | None | Apache ServerName.<br />See [ServerName Directiva](https://httpd.apache.org/docs/2.4/mod/core.html#servername) and [VirtualHost Examples](https://httpd.apache.org/docs/2.4/vhosts/examples.html).
+ssl | string | Yes | None | Only options: `'false'` or `'true'`. <br />**Note:** If there are no single quotes, it will not work.
+workspace | string | Yes | None | Path of the project code.
+host | string | No | `'*:80'` or `'*:443'` depends of ssl parameter. | This parameter will be in \<VirtualHost `host`\>.<br />See [VirtualHost Directiva](https://httpd.apache.org/docs/2.4/mod/core.html#virtualhost) and [VirtualHost Examples](https://httpd.apache.org/docs/2.4/vhosts/examples.html).
+public_html | string | No | same workspace parameter | Path to the project folder that is public from the browser.<br />See [Directory Directiva](http://httpd.apache.org/docs/current/mod/core.html#directory)
+repository | string | No | None | git, SSH, or HTTP(S) protocol address of the git repository.
+version | string | when repository is defined | None | What version of the repository to check out. This can be the the literal string `HEAD`, a branch name, a tag name.
+
+_config/projects.yml_ example:
+```yml
+---
+projects:
+    - {
+      domain: 'domain.com.dev',
+      ssl: 'false',
+      repository: 'git@github.com:vendor/repository.git',
+      version: 'dev',
+      workspace: '/home/vagrant/Workspace/vendor/domain.com.dev',
+      public_html: '/home/vagrant/Workspace/vendor/domain.com.dev/web',
+      script: 'cd /home/vagrant/Workspace/vendor/domain.com.dev && yes | composer install'
+    }
+    - {
+      domain: 'other.domain.com.dev',
+      ssl: 'true',
+      workspace: '/home/vagrant/Workspace/vendor/other.domain.com.dev',
+    }
+```
+- If you build a project with ssl, you must put the crt file and key file in _**(../dev-web-server/config/ssl/)**_ path with the same name of the `domain` parameter:
+    * dev-web-server/config/ssl/other.domain.com.dev.crt
+    * dev-web-server/config/ssl/other.domain.com.dev.key
+- Edit your local hosts file: **Windows**: _C:\Windows\System32\drivers\etc\hosts_, **Linux**: _/etc/hosts_ or **OSX**: _/etc/hosts_:
+    * Add new line with your domains projects `192.168.2.100 domain.com.dev`
+
+```bash
 cd dev-web-server # Note: you always have to be in this directory to run these commands
 
 #To manage the virtual machine
@@ -100,12 +145,13 @@ vagrant destroy         #To delete the virtual machine (you can use this if you 
 vagrant up --provision  #When you do vagrant up in a first time the ansible will provisioned the machine automatically, if you need reprovision you can use this command with the machine off
 vagrant provision       #When you do vagrant up in a first time the ansible will provisioned the machine automatically, if you need reprovision you can use this command with the machine on
 ```
+- When the provision finish you can open http//domain.com.dev and see your web project
 - For more commands see: [https://www.vagrantup.com/docs/cli/](https://www.vagrantup.com/docs/cli/)
 
 Then in your host machine you can use any IDE software to develop in your Workspace directory and you will see all these projects in your virtual machine (~/Workspace)
 
 ## 4. Custom config
-Create _**config.rb**_ in the root directory _**(../dev-web-server/config.rb)**_, copy and paste this:
+Create _**config.rb**_ in the config directory _**(../dev-web-server/config/config.rb)**_, copy and paste this:
 ```ruby
 # Set the ip machine in order to work with your router gateway.
 # You can set almost any IP depend of your router configuration.

@@ -9,3 +9,10 @@
       - { role: common, tags: common }
       - { role: webtier, tags: webtier }
       - { role: dbtier, tags: dbtier }
+
+  tasks:
+      - name: Generating web projects ansible playbook
+        become: yes
+        template: src=projects.yml.j2 dest=./.projects.yml
+        when: projects is defined
+        tags: webproject

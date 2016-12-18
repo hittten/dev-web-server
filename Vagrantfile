@@ -4,8 +4,8 @@
 # Vagrant API version
 VAGRANTFILE_API_VERSION = '2'
 
-if File.file?('config.rb')
-  require_relative 'config.rb'
+if File.file?('config/config.rb')
+  require_relative 'config/config.rb'
 end
 
 VIRTUAL_MACHINE_IP= '192.168.2.100' unless defined? VIRTUAL_MACHINE_IP
@@ -53,14 +53,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision 'shell', path: 'fix_ssh_permissions.sh'
   end
 
+  provision = 'ansible'
   if windows_host #verify is if a windows host
-    config.vm.provision 'ansible_local' do |ansible|
-      ansible.playbook = 'provision/vagrant.yml'
+    provision = 'ansible_local'
+  end
+
+  config.vm.provision provision do |ansible|
+    ansible.playbook = 'provision/vagrant.yml'
+    if File.file?('config/projects.yml')
+      ansible.extra_vars = 'config/projects.yml'
+    end
+    if windows_host #verify is if a windows host
       ansible.install = true
     end
-  else
-    config.vm.provision :ansible do |ansible|
-      ansible.playbook = 'provision/vagrant.yml'
+  end
+
+  if File.file?('config/projects.yml')
+    config.vm.provision provision do |ansible|
+      ansible.playbook = 'provision/.projects.yml'
     end
   end
 end

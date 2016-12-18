@@ -1,3 +1,4 @@
 .vagrant
 *.retry
-config.rb
+config/config.rb
+provision/.projects.yml

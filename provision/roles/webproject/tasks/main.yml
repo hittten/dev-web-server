@@ -1,0 +1,56 @@
+---
+- name:  "{{ domain }} - clone repository"
+  become: yes
+  become_user: "{{ user }}"
+  git:
+      repo: "{{ repository }}"
+      dest: "{{ workspace }}"
+      version: "{{ version }}"
+      accept_hostkey: yes
+      update: no
+  when: repository is defined
+
+- name: "{{ domain }} - Hosts file"
+  become: yes
+  lineinfile: dest=/etc/hosts state=present line='127.0.0.1 {{ domain }}'
+
+- name: "{{ domain }} - ssl folder"
+  become: yes
+  file: path=/etc/apache2/ssl state=directory
+  when: ssl
+
+- name: "{{ domain }} - Copy ssl crt"
+  become: yes
+  copy: src=./../../../../config/ssl/{{ domain }}.crt dest=/etc/apache2/ssl/{{ domain }}.crt
+  when: ssl
+
+- name: "{{ domain }} - Copy ssl key"
+  become: yes
+  copy: src=./../../../../config/ssl/{{ domain }}.key dest=/etc/apache2/ssl/{{ domain }}.key
+  when: ssl
+
+- name: "{{ domain }} - Apache virtual host file"
+  become: yes
+  template: src=apache.virtual.host.conf.j2 dest=/etc/apache2/sites-available/{{ domain }}.conf owner=root group=root mode=644
+  notify:
+    - reload apache2
+    - restart php5-fpm
+
+- name: "{{ domain }} - Apache enable site"
+  become: yes
+  command: a2ensite {{ domain }}.conf
+  notify:
+    - reload apache2
+
+- name: "{{ domain }} - Php fpm file"
+  become: yes
+  template: src=php.fpm.sock.conf.j2 dest=/etc/php5/fpm/pool.d/{{ domain }}.conf owner=root group=root mode=644
+  notify:
+    - restart php5-fpm
+    - reload apache2
+
+- name: "{{ domain }} - executing shell"
+  become: yes
+  become_user: "{{ user }}"
+  shell: "{{ script }}"
+  when: script is defined
