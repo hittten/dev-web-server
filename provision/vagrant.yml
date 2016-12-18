@@ -4,7 +4,8 @@
   vars:
       user: vagrant
       home: /home/{{ user }}
+
   roles:
-      - common
-      - webtier
-      - dbtier
+      - { role: common, tags: common }
+      - { role: webtier, tags: webtier }
+      - { role: dbtier, tags: dbtier }

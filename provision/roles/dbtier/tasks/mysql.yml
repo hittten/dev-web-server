@@ -1,0 +1,4 @@
+---
+- name: Install MySQL
+  become: yes
+  apt:  pkg=mysql-server state=latest

@@ -1,0 +1,4 @@
+---
+- name: Install MongoDB
+  become: yes
+  apt:  pkg=mongodb state=latest

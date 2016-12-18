@@ -1,6 +1,11 @@
 ---
 - include: apache2.yml
+  tags: apache
 - include: php5.yml
+  tags: php
 - include: composer.yml
+  tags: php
 - include: npm.yml
+  tags: nodejs
 - include: java.yml
+  tags: java
