@@ -13,6 +13,6 @@
   tasks:
       - name: Generating web projects ansible playbook
         become: yes
-        template: src=projects.yml.j2 dest=./.projects.yml
+        template: src=projects.yml.j2 dest=/vagrant/provision/.projects.yml
         when: projects is defined
         tags: webproject

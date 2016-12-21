@@ -2,3 +2,4 @@
 *.retry
 config/config.rb
 provision/.projects.yml
+/*.log
