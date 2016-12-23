@@ -19,10 +19,10 @@
     </Directory>
 
     <IfModule mod_fastcgi.c>
-        AddType application/x-httpd-fastphp5 .php
-        Action application/x-httpd-fastphp5 /php5-fcgi
-        Alias /php5-fcgi /usr/lib/cgi-bin/php5-http{% if ssl is defined and ssl == 'true' %}s{% endif %}-{{ domain }}-fcgi
-        FastCgiExternalServer /usr/lib/cgi-bin/php5-http{% if ssl is defined and ssl == 'true' %}s{% endif %}-{{ domain }}-fcgi -socket /var/run/{{ domain }}.sock -pass-header Authorization
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /php-fcgi
+        Alias /php-fcgi /usr/lib/cgi-bin/php-http{% if ssl is defined and ssl == 'true' %}s{% endif %}-{{ domain }}-fcgi
+        FastCgiExternalServer /usr/lib/cgi-bin/php-http{% if ssl is defined and ssl == 'true' %}s{% endif %}-{{ domain }}-fcgi -socket /run/php/{{ domain }}.sock -pass-header Authorization
         <Directory /usr/lib/cgi-bin>
             Require all granted
         </Directory>

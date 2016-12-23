@@ -1,7 +1,7 @@
 ---
 - include: apache2.yml
   tags: apache
-- include: php5.yml
+- include: php.yml
   tags: php
 - include: composer.yml
   tags: php
@@ -9,3 +9,5 @@
   tags: nodejs
 - include: java.yml
   tags: java
+- include: python.yml
+  tags: python

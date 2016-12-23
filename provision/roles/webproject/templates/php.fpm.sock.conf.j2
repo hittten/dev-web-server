@@ -5,6 +5,7 @@
 
 ; Per pool prefix
 ; It only applies on the following directives:
+; - 'access.log'
 ; - 'slowlog'
 ; - 'listen' (unixsocket)
 ; - 'chroot'
@@ -24,17 +25,19 @@ group = {{ user }}
 
 ; The address on which to accept FastCGI requests.
 ; Valid syntaxes are:
-;   'ip.add.re.ss:port'    - to listen on a TCP socket to a specific address on
+;   'ip.add.re.ss:port'    - to listen on a TCP socket to a specific IPv4 address on
 ;                            a specific port;
-;   'port'                 - to listen on a TCP socket to all addresses on a
-;                            specific port;
+;   '[ip:6:addr:ess]:port' - to listen on a TCP socket to a specific IPv6 address on
+;                            a specific port;
+;   'port'                 - to listen on a TCP socket to all addresses
+;                            (IPv6 and IPv4-mapped) on a specific port;
 ;   '/path/to/unix/socket' - to listen on a unix socket.
 ; Note: This value is mandatory.
-listen = /var/run/{{ domain }}.sock
+listen = /run/php/{{ domain }}.sock
 
 ; Set listen(2) backlog.
-; Default Value: 65535 (-1 on FreeBSD and OpenBSD)
-;listen.backlog = 65535
+; Default Value: 511 (-1 on FreeBSD and OpenBSD)
+;listen.backlog = 511
 
 ; Set permissions for unix socket, if one is used. In Linux, read/write
 ; permissions must be set in order to allow connections from a web server. Many
@@ -44,8 +47,13 @@ listen = /var/run/{{ domain }}.sock
 listen.owner = {{ user }}
 listen.group = {{ user }}
 ;listen.mode = 0660
+; When POSIX Access Control Lists are supported you can set them using
+; these options, value is a comma separated list of user/group names.
+; When set, listen.owner and listen.group are ignored
+;listen.acl_users =
+;listen.acl_groups =
 
-; List of ipv4 addresses of FastCGI clients which are allowed to connect.
+; List of addresses (IPv4/IPv6) of FastCGI clients which are allowed to connect.
 ; Equivalent to the FCGI_WEB_SERVER_ADDRS environment variable in the original
 ; PHP FCGI (5.2.2+). Makes sense only with a tcp listening socket. Each address
 ; must be separated by a comma. If this value is left blank, connections will be
@@ -59,7 +67,7 @@ listen.group = {{ user }}
 ;       - The pool processes will inherit the master process priority
 ;         unless it specified otherwise
 ; Default Value: no set
-; priority = -19
+; process.priority = -19
 
 ; Choose how the process manager will control the number of child processes.
 ; Possible Values:
@@ -101,7 +109,7 @@ pm.max_children = {{ ansible_processor_vcpus * 2 }}
 ; The number of child processes created on startup.
 ; Note: Used only when pm is set to 'dynamic'
 ; Default Value: min_spare_servers + (max_spare_servers - min_spare_servers) / 2
-;pm.start_servers = 2
+pm.start_servers = 2
 
 ; The desired minimum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
@@ -122,7 +130,7 @@ pm.max_spare_servers = {{ ansible_processor_vcpus }}
 ; This can be useful to work around memory leaks in 3rd party libraries. For
 ; endless request processing specify '0'. Equivalent to PHP_FCGI_MAX_REQUESTS.
 ; Default Value: 0
-pm.max_requests = 200
+;pm.max_requests = 500
 
 ; The URI to view the FPM status page. If this value is not set, no URI will be
 ; recognized as a status page. It shows the following informations:
@@ -215,7 +223,7 @@ pm.max_requests = 200
 ;   last request memory:  0
 ;
 ; Note: There is a real-time FPM status monitoring sample web page available
-;       It's available in: ${prefix}/share/fpm/status.html
+;       It's available in: /usr/share/php/7.0/fpm/status.html
 ;
 ; Note: The value must start with a leading slash (/). The value can be
 ;       anything, but it may not be a good idea to use the .php extension or it
@@ -302,29 +310,29 @@ pm.max_requests = 200
 ; The log file for slow requests
 ; Default Value: not set
 ; Note: slowlog is mandatory if request_slowlog_timeout is set
-slowlog = /var/log/$pool.log.slow
+;slowlog = log/$pool.log.slow
 
 ; The timeout for serving a single request after which a PHP backtrace will be
 ; dumped to the 'slowlog' file. A value of '0s' means 'off'.
 ; Available units: s(econds)(default), m(inutes), h(ours), or d(ays)
 ; Default Value: 0
-request_slowlog_timeout = 2s
+;request_slowlog_timeout = 0
 
 ; The timeout for serving a single request after which the worker process will
 ; be killed. This option should be used when the 'max_execution_time' ini option
 ; does not stop script execution for some reason. A value of '0' means 'off'.
 ; Available units: s(econds)(default), m(inutes), h(ours), or d(ays)
 ; Default Value: 0
-request_terminate_timeout = 120s
+;request_terminate_timeout = 0
 
 ; Set open file descriptor rlimit.
 ; Default Value: system defined value
-rlimit_files = 131072
+;rlimit_files = 1024
 
 ; Set max core size rlimit.
 ; Possible Values: 'unlimited' or an integer greater or equal to 0
 ; Default Value: system defined value
-rlimit_core = unlimited
+;rlimit_core = 0
 
 ; Chroot to this directory at the start. This value must be defined as an
 ; absolute path. When this value is not set, chroot is not used.
@@ -340,7 +348,7 @@ rlimit_core = unlimited
 ; Chdir to this directory at the start.
 ; Note: relative path can be used.
 ; Default Value: current directory or / when chroot
-chdir = /
+;chdir = /var/www
 
 ; Redirect worker stdout and stderr into main error log. If not set, stdout and
 ; stderr will be redirected to /dev/null according to FastCGI specs.
@@ -349,13 +357,22 @@ chdir = /
 ; Default Value: no
 ;catch_workers_output = yes
 
+; Clear environment in FPM workers
+; Prevents arbitrary environment variables from reaching FPM worker processes
+; by clearing the environment in workers before env vars specified in this
+; pool configuration are added.
+; Setting to "no" will make all environment variables available to PHP code
+; via getenv(), $_ENV and $_SERVER.
+; Default Value: yes
+;clear_env = no
+
 ; Limits the extensions of the main script FPM will allow to parse. This can
 ; prevent configuration mistakes on the web server side. You should only limit
 ; FPM to .php extensions to prevent malicious users to use other extensions to
 ; exectute php code.
 ; Note: set an empty value to allow all extensions.
 ; Default Value: .php
-;security.limit_extensions = .php .php3 .php4 .php5
+;security.limit_extensions = .php .php3 .php4 .php5 .php7
 
 ; Pass environment variables like LD_LIBRARY_PATH. All $VARIABLEs are taken from
 ; the current environment.

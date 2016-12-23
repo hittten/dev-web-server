@@ -8,18 +8,6 @@
   become: yes
   template: src=apache2/envvars.j2 dest=/etc/apache2/envvars owner=root group=root mode=644
 
-- name: apache2 create servername file
-  become: yes
-  file: path=/etc/apache2/conf-available/servername.conf state=touch
-
-- name: apache2 adding localhost servername
-  become: yes
-  lineinfile: dest=/etc/apache2/conf-available/servername.conf state=present line='ServerName localhost'
-
-- name: Enable apache servername #TODO: fix return always changed
-  become: yes
-  command: a2enconf servername
-
 # apache modules
 - name: Install apache modules
   become: yes
@@ -29,30 +17,25 @@
 - name: Change fastcgi owner and group
   file: path=/var/lib/apache2/fastcgi owner={{ user }} group={{ user }}
   become: yes
-  notify: reload apache2
+  notify: restart apache2
 
-- name: Disable apache mpm_event
+- name: Enable apache mpm_event
   become: yes
-  command: a2dismod mpm_event
-  notify: reload apache2
-
-- name: Enable apache mpm_worker
-  become: yes
-  command: a2enmod mpm_worker
-  notify: reload apache2
+  command: a2enmod mpm_event
+  notify: restart apache2
 
 - name: Enable apache modules
   become: yes
   apache2_module: name={{ item }}
   with_items: "{{ apache_enable_modules }}"
-  notify: reload apache2
+  notify: restart apache2
 
 - name: Disable default site
   become: yes
   file: dest=/etc/apache2/sites-enabled/000-default.conf state=absent
-  notify: reload apache2
+  notify: restart apache2
 
 - name: Disable default ssl site
   become: yes
   file: dest=/etc/apache2/sites-enabled/default-ssl.conf state=absent
-  notify: reload apache2
+  notify: restart apache2

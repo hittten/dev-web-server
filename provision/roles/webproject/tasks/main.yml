@@ -33,21 +33,21 @@
   become: yes
   template: src=apache.virtual.host.conf.j2 dest=/etc/apache2/sites-available/{{ domain }}.conf owner=root group=root mode=644
   notify:
-    - reload apache2
-    - restart php5-fpm
+    - restart apache2
+    - restart php-fpm
 
 - name: "{{ domain }} - Apache enable site"
   become: yes
   command: a2ensite {{ domain }}.conf
   notify:
-    - reload apache2
+    - restart apache2
 
 - name: "{{ domain }} - Php fpm file"
   become: yes
-  template: src=php.fpm.sock.conf.j2 dest=/etc/php5/fpm/pool.d/{{ domain }}.conf owner=root group=root mode=644
+  template: src=php.fpm.sock.conf.j2 dest=/etc/php/7.0/fpm/pool.d/{{ domain }}.conf owner=root group=root mode=644
   notify:
-    - restart php5-fpm
-    - reload apache2
+    - restart php-fpm
+    - restart apache2
 
 - name: "{{ domain }} - executing shell"
   become: yes

@@ -1,0 +1,17 @@
+---
+php_packages:
+  - php-dev
+  - php-pear
+  - php-xdebug
+  - php-curl
+  - php-mcrypt
+  - php-imagick
+  - php-intl
+  - php-gd
+  - phpunit
+  - php-xsl
+  - php-mongodb
+  - php-mysql
+  - php-mbstring
+  - php-zip
+  - php-bcmath

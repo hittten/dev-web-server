@@ -2,7 +2,7 @@
 - hosts: all
   become_method: sudo
   vars:
-      user: vagrant
+      user: ubuntu
       home: /home/{{ user }}
   roles:
   {% for project in projects %}
@@ -10,6 +10,6 @@
           role: 'webproject',
 {% for key, value in project.iteritems() %}          {{ key }}: '{{ value }}',
 {% endfor %}
-          tags: [webproject, {{ project.domain }}]
+          tags: {{ project.domain }}
         }
   {% endfor %}

@@ -1,8 +1,8 @@
 ---
-- name: reload apache2
+- name: restart apache2
   become: yes
-  service: name=apache2 enabled=yes state=reloaded
+  service: name=apache2 enabled=yes state=restarted
 
-- name: restart php5-fpm
+- name: restart php-fpm
   become: yes
-  service: name=php5-fpm enabled=yes state=restarted
+  service: name=php7.0-fpm enabled=yes state=restarted

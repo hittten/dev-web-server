@@ -2,7 +2,7 @@
 - hosts: all
   become_method: sudo
   vars:
-      user: vagrant
+      user: ubuntu
       home: /home/{{ user }}
 
   roles:

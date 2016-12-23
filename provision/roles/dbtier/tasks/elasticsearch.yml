@@ -24,4 +24,4 @@
 - name: Config file Elasticsearch
   become: yes
   copy: src=elasticsearch/elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml owner={{ user }} group=elasticsearch mode=0750
-  notify: reload elasticsearch
+  notify: restart elasticsearch

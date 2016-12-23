@@ -1,4 +1,4 @@
-# Ubuntu trusty 64 virtual environment for web apps via Vagrant provisioned with Ansible.
+# Ubuntu xenial 64 virtual environment for web apps via Vagrant provisioned with Ansible.
 **Vagrant** is a tool for building complete development environments. With an easy-to-use workflow and focus on automation, Vagrant lowers development environment setup time, increases development/production parity, and makes the "works on my machine" excuse a relic of the past. 
 
 **Ansible** is an IT automation tool. It can configure systems, deploy software, and orchestrate more advanced IT tasks such as continuous deployments or zero downtime rolling updates.
@@ -17,7 +17,7 @@ A Virtualbox virtual machine with Ubuntu Trusty64 provisioned with this:
     - A copy of your local .gitconfig, .gitignore and .ssh folder
 + **Webtier Role:**
     - apache2 with modules: _actions, alias, fastcgi, rewrite, ssl, wsgi_
-    - php with packages: _php5-dev, php-pear, php5-xdebug, php5-curl, php5-mcrypt, php5-imagick, php5-intl, php5-gd, phpunit, php5-xsl, php5-mongo, php5-mysql_
+    - php with packages: _php5-dev, php-pear, php-xdebug, php-curl, php-mcrypt, php-imagick, php-intl, php-gd, phpunit, php-xsl, php-mongodb, php-mysql, php-mbstring, php-zip, php-bcmath_
     - composer
     - nodejs
     - npm with components: _bower, gulp-cli, grunt-cli, live-server_
@@ -107,6 +107,7 @@ version | string | when repository is defined | None | What version of the repos
 
 _config/projects.yml_ example:
 ```yml
+
 ---
 projects:
     - {
@@ -114,14 +115,14 @@ projects:
       ssl: 'false',
       repository: 'git@github.com:vendor/repository.git',
       version: 'dev',
-      workspace: '/home/vagrant/Workspace/vendor/domain.com.dev',
-      public_html: '/home/vagrant/Workspace/vendor/domain.com.dev/web',
-      script: 'cd /home/vagrant/Workspace/vendor/domain.com.dev && yes | composer install'
+      workspace: '/home/ubuntu/Workspace/vendor/domain.com.dev',
+      public_html: '/home/ubuntu/Workspace/vendor/domain.com.dev/web',
+      script: 'cd /home/ubuntu/Workspace/vendor/domain.com.dev && yes | composer install'
     }
     - {
       domain: 'other.domain.com.dev',
       ssl: 'true',
-      workspace: '/home/vagrant/Workspace/vendor/other.domain.com.dev',
+      workspace: '/home/ubuntu/Workspace/vendor/other.domain.com.dev',
     }
 ```
 - If you build a project with ssl, you must put the crt file and key file in _**(../dev-web-server/config/ssl/)**_ path with the same name of the `domain` parameter:

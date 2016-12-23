@@ -2,3 +2,11 @@
 - name: Install MySQL
   become: yes
   apt:  pkg=mysql-server state=latest
+
+- name: Create User
+  become: yes
+  mysql_user:
+      name: '{{ user }}'
+      password: ''
+      priv: '*.*:ALL'
+      state: present
