@@ -1,0 +1,10 @@
+---
+- include_vars: ruby.yml
+- name: Install ruby
+  become: yes
+  apt:  pkg=ruby state=latest
+
+- name: Install ruby packages
+  become: yes
+  apt:  pkg={{ item }} state=latest
+  with_items: "{{ ruby_packages }}"

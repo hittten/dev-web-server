@@ -11,3 +11,5 @@
   tags: java
 - include: python.yml
   tags: python
+- include: ruby.yml
+  tags: ruby

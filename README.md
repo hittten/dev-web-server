@@ -18,10 +18,11 @@ A Virtualbox virtual machine with Ubuntu Trusty64 provisioned with this:
 + **Webtier Role:**
     - apache2 with modules: _actions, alias, fastcgi, rewrite, ssl, wsgi_
     - php with packages: _php5-dev, php-pear, php-xdebug, php-curl, php-mcrypt, php-imagick, php-intl, php-gd, phpunit, php-xsl, php-mongodb, php-mysql, php-mbstring, php-zip, php-bcmath_
+    - python with packages: _python-setuptools, python-mysqldb, python-pip, python-virtualenv_
+    - npm with components: _bower, gulp-cli, grunt-cli, live-server_
+    - ruby with packages: _ruby-bundler_
     - composer
     - nodejs
-    - npm with components: _bower, gulp-cli, grunt-cli, live-server_
-    - python with packages: _python-setuptools, python-mysqldb, python-pip, python-virtualenv_
     - Oracle Java
 + **DBtier Role:**
     - MySQL
