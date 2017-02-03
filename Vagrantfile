@@ -50,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       next if item == '.' or item == '..'
       config.vm.provision 'file', source: SSH_PATH + '/' +item, destination: '.ssh/' + item
     end
-    config.vm.provision 'shell', path: 'fix_ssh_permissions.sh'
+    config.vm.provision 'shell', path: 'scripts/fix_ssh_permissions.sh'
   end
 
   provision = 'ansible'
