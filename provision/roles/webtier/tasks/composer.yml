@@ -3,6 +3,6 @@
   become: yes
   shell: >
     which composer || (
-    php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php &&
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     sudo php composer-setup.php --install-dir=/usr/bin --filename=composer &&
     php -r "unlink('composer-setup.php');")
