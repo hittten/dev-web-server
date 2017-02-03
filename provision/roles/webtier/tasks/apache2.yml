@@ -8,6 +8,18 @@
   become: yes
   template: src=apache2/envvars.j2 dest=/etc/apache2/envvars owner=root group=root mode=644
 
+- name: apache2 create servername file
+  become: yes
+  file: path=/etc/apache2/conf-available/servername.conf state=touch
+
+- name: apache2 adding localhost servername
+  become: yes
+  lineinfile: dest=/etc/apache2/conf-available/servername.conf state=present line='ServerName localhost'
+
+- name: Enable apache servername #TODO: fix return always changed
+  become: yes
+  command: a2enconf servername
+
 # apache modules
 - name: Install apache modules
   become: yes
