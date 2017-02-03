@@ -15,6 +15,12 @@
   with_items: "{{ php_packages }}"
   notify: restart php-fpm
 
+- name: xdebug config
+  become: yes
+  copy:
+    src: php/xdebug.ini
+    dest: /etc/php/7.0/mods-available/xdebug.ini
+
 - name: disable xdebug in cli
   become: yes
   file:
