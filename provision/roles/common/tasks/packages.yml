@@ -4,6 +4,10 @@
   become: True
   apt:  update_cache=yes cache_valid_time=86400
 
+- name: Upgrade APT
+  become: True
+  apt:  upgrade=dist cache_valid_time=86400
+
 - name: Install extra packages
   become: True
   apt:  pkg={{ item }} state=latest
