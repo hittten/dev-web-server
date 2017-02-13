@@ -6,3 +6,5 @@ packages:
     - ntp
     - vim
     - htop
+    - sendmail
+    - lynx

@@ -13,6 +13,8 @@ A Virtualbox virtual machine with Ubuntu Trusty64 provisioned with this:
     - ntp
     - vim
     - htop
+    - sendmail
+    - lynx
     - dot files: [~/.bash_aliases](provision/roles/common/files/dotfiles/.bash_aliases), [~/.bash_colors](provision/roles/common/files/dotfiles/.bash_colors), [~/.bashrc](provision/roles/common/files/dotfiles/.bashrc)
     - A copy of your local .gitconfig, .gitignore and .ssh folder
 + **Webtier Role:**
