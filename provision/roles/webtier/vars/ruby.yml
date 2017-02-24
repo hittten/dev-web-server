@@ -1,3 +1,4 @@
 ---
 ruby_packages:
   - ruby-bundler
+  - ruby-dev
