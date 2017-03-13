@@ -1,5 +1,6 @@
-alias ll='ls -l'
-alias la='ls -la'
+alias ll='ls -lF'
+alias la='ls -AlF'
+alias l='ls -CF'
 alias sl='ls'
 alias cd..='cd ..'
 alias gti='git'
