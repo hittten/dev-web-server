@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'ubuntu/xenial64'
   config.vm.hostname = 'hitttenDevWebServer'
   config.vm.network 'private_network', ip: VIRTUAL_MACHINE_IP
-  config.vm.network 'forwarded_port', guest: 80, host: 80
+  config.vm.network 'forwarded_port', guest: 80, host: 8080
   config.ssh.forward_agent = true
 
   windows_host = (RUBY_PLATFORM =~ /mingw/) ? true : false
