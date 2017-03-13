@@ -8,3 +8,8 @@
   become: yes
   apt:  pkg={{ item }} state=latest
   with_items: "{{ ruby_packages }}"
+
+- name: Install ruby gems
+  become: yes
+  gem:  name={{ item }} state=latest
+  with_items: "{{ ruby_gems }}"
