@@ -9,6 +9,7 @@ php_packages:
   - php-intl
   - php-gd
   - phpunit
+  - php-xml
   - php-mongodb
   - php-mysql
   - php-mbstring
