@@ -1,5 +1,8 @@
 .vagrant
 *.retry
-config/config.rb
+/config/*
+!/config/ssl
+/config/ssl/*
+!config/ssl/.gitkeep
 provision/.projects.yml
 /*.log
