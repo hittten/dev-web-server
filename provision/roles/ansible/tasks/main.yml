@@ -1,0 +1,18 @@
+---
+- name: Install software-properties-common
+  become: yes
+  apt:  pkg=software-properties-common state=latest
+
+- name: Add source package Ansible
+  become: yes
+  apt_repository: repo='ppa:ansible/ansible'
+  register: ppa_ansible_result
+
+- name: Update APT
+  become: True
+  apt:  update_cache=yes
+  when: ppa_ansible_result.changed
+
+- name: Install Ansible
+  become: yes
+  apt: pkg=ansible state=latest
