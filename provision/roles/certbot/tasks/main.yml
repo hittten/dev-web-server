@@ -1,0 +1,18 @@
+---
+- name: Install software-properties-common
+  become: yes
+  apt:  pkg=software-properties-common state=latest
+
+- name: Add source package certbot
+  become: yes
+  apt_repository: repo='ppa:certbot/certbot'
+  register: ppa_certbot_result
+
+- name: Update APT
+  become: True
+  apt:  update_cache=yes
+  when: ppa_certbot_result.changed
+
+- name: Install certbot
+  become: yes
+  apt: pkg=python-certbot-apache state=latest
