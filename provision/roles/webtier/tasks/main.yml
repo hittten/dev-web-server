@@ -3,6 +3,8 @@
   tags: apache
 - include: php.yml
   tags: php
+- include: php-dev.yml
+  tags: php-dev
 - include: composer.yml
   tags: php
 - include: npm.yml

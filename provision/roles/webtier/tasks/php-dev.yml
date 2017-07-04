@@ -1,0 +1,27 @@
+---
+- include_vars: php.yml
+- name: Install php-dev packages
+  become: yes
+  apt:  pkg={{ item }} state=latest
+  with_items: "{{ php_dev_packages }}"
+  notify: restart php-fpm
+
+- name: xdebug config
+  become: yes
+  copy:
+    src: php/xdebug.ini
+    dest: /etc/php/7.0/mods-available/xdebug.ini
+
+- name: disable xdebug in cli
+  become: yes
+  file:
+    dest: /etc/php/7.0/cli/conf.d/20-xdebug.ini
+    state: absent
+  notify: restart php-fpm
+
+- name: disable xdebug in fpm
+  become: yes
+  file:
+    dest: /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+    state: absent
+  notify: restart php-fpm

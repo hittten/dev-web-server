@@ -1,8 +1,6 @@
 ---
 php_packages:
-  - php-dev
   - php-pear
-  - php-xdebug
   - php-curl
   - php-mcrypt
   - php-imagick
@@ -15,3 +13,7 @@ php_packages:
   - php-mbstring
   - php-zip
   - php-bcmath
+
+php_dev_packages:
+  - php-dev
+  - php-xdebug
