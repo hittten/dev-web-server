@@ -16,3 +16,16 @@
 - name: Install certbot
   become: yes
   apt: pkg=python-certbot-apache state=latest
+
+- file:
+      path: "{{ home }}/logs"
+      state: directory
+
+- name: Add renew cron job
+  cron:
+      name: "Renew letsencrypt certificate"
+      minute: "0"
+      hour: "0"
+      month: "*/2"
+      weekday: "*"
+      job: "certbot renew > {{ home }}/logs/cronjob.certbot.log"
