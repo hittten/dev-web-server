@@ -8,3 +8,4 @@ packages:
     - htop
     - sendmail
     - lynx
+    - xclip
