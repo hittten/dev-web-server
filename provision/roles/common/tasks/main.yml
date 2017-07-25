@@ -6,3 +6,5 @@
   tags: packages
 - include: dotfiles.yml
   tags: dotfiles
+- include: bashrc.yml
+  tags: bashrc
