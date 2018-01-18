@@ -154,6 +154,19 @@ vagrant provision       #When you do vagrant up in a first time the ansible will
 
 Then in your host machine you can use any IDE software to develop in your Workspace directory and you will see all these projects in your virtual machine (~/Workspace)
 
+## 3.1 Symfony Development Mode
+To enable */app_dev.php in your project, remember to add your project ip in web/app_dev.php
+
+```php
+if (isset($_SERVER['HTTP_CLIENT_IP'])
+    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+    || !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.2.1', '::1'], true) || PHP_SAPI === 'cli-server')
+) {
+    header('HTTP/1.0 403 Forbidden');
+    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+}
+```
+
 ## 4. Custom config
 Create _**config.rb**_ in the config directory _**(../dev-web-server/config/config.rb)**_, copy and paste this:
 ```ruby
