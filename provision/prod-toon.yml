@@ -1,0 +1,23 @@
+---
+- hosts: production-zoho
+  become_method: sudo
+  vars:
+      user: ubuntu
+      home: /home/{{ user }}
+      ansible_processor_vcpus: 3
+
+  roles:
+      - { role: common, tags: common }
+      - { role: webtier, tags: webtier }
+      - { role: dbtier, tags: dbtier }
+      - { role: certbot, tags: ssl }
+      - {
+          role: webproject,
+          domain: 'termostatoviesgo.com',
+          ssl: 'false',
+          repository: 'git@github.com:Viesgo/TOONWEB.git',
+          version: 'master',
+          workspace: '/home/{{ user }}/www/viesgo/termostatoviesgo.com/current',
+          public_html: '{{ workspace }}/web',
+          tags: webproject
+        }

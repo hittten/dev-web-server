@@ -5,11 +5,11 @@
       user: ubuntu
       home: /home/{{ user }}
 
-  roles:
-      - { role: common, tags: common }
-      - { role: webtier, tags: webtier }
-      - { role: dbtier, tags: dbtier }
-      - { role: ansible, tags: ansible }
+#  roles:
+#      - { role: common, tags: common }
+#      - { role: webtier, tags: webtier }
+#      - { role: dbtier, tags: dbtier }
+#      - { role: ansible, tags: ansible }
 
   tasks:
       - name: Generating web projects ansible playbook

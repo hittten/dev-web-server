@@ -1,0 +1,25 @@
+---
+- hosts: pre
+  become_method: sudo
+  vars:
+      user: ubuntu
+      home: /home/{{ user }}
+      ansible_processor_vcpus: 3
+
+  roles:
+      - { role: common, tags: common }
+      - { role: webtier, tags: webtier }
+      - { role: dbtier, tags: dbtier }
+      - { role: certbot, tags: ssl }
+      - {
+          role: webproject,
+          domain: 'pre.termostatoviesgo.com',
+          ssl: 'false',
+          repository: 'git@github.com:Viesgo/TOONWEB.git',
+          version: 'pre',
+          workspace: '/home/{{ user }}/www/viesgo/termostatoviesgo.com/current',
+          public_html: '{{ workspace }}/web',
+          tags: webproject
+        }
+
+#ansible-playbook -i provision/inventory provision/pre-toon.yml --tags common,apache,php,mysql,webproject

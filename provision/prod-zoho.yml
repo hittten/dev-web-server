@@ -1,0 +1,25 @@
+---
+- hosts: zoho-test
+  become_method: sudo
+  vars:
+      user: ubuntu
+      home: /home/{{ user }}
+      ansible_processor_vcpus: 3
+
+  roles:
+      - { role: common, tags: common }
+      - { role: webtier, tags: webtier }
+      - { role: dbtier, tags: dbtier }
+      - { role: certbot, tags: ssl }
+      - {
+          role: webproject,
+          domain: 'zoho',
+          ssl: 'false',
+          repository: 'gogs@devappforbrands.com:Mariomm/dev.tooncore.com.git',
+          version: 'master',
+          workspace: '/home/{{ user }}/www/viesgo/zoho/current',
+          public_html: '{{ workspace }}/web',
+#          script: 'cd {{ workspace }} && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader',
+          tags: webproject
+        }
+#ansible-playbook -i provision/inventory provision/prod-zoho.yml --tags common,apache,php,mysql,webproject --check

@@ -36,22 +36,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.name = 'hittten_dev_web_server'
   end
 
-  if File.exists? File.expand_path(GIT_CONFIG_FILE)
-    config.vm.provision 'file', source: GIT_CONFIG_FILE, destination: '.gitconfig'
-  end
+  # if File.exists? File.expand_path(GIT_CONFIG_FILE)
+  #   config.vm.provision 'file', source: GIT_CONFIG_FILE, destination: '.gitconfig'
+  # end
+  #
+  # if File.exists? File.expand_path(GIT_IGNORE_FILE)
+  #   config.vm.provision 'file', source: GIT_IGNORE_FILE, destination: '.gitignore'
+  # end
 
-  if File.exists? File.expand_path(GIT_IGNORE_FILE)
-    config.vm.provision 'file', source: GIT_IGNORE_FILE, destination: '.gitignore'
-  end
-
-  if File.exists? File.expand_path(SSH_PATH)
-    config.vm.provision 'shell', inline: 'chmod -f 664 .ssh/*; true'
-    Dir.foreach(File.expand_path(SSH_PATH)) do |item|
-      next if item == '.' or item == '..'
-      config.vm.provision 'file', source: SSH_PATH + '/' +item, destination: '.ssh/' + item
-    end
-    config.vm.provision 'shell', path: 'scripts/fix_ssh_permissions.sh'
-  end
+  # if File.exists? File.expand_path(SSH_PATH)
+  #   config.vm.provision 'shell', inline: 'chmod -f 664 .ssh/*; true'
+  #   Dir.foreach(File.expand_path(SSH_PATH)) do |item|
+  #     next if item == '.' or item == '..'
+  #     config.vm.provision 'file', source: SSH_PATH + '/' +item, destination: '.ssh/' + item
+  #   end
+  #   config.vm.provision 'shell', path: 'scripts/fix_ssh_permissions.sh'
+  # end
 
   provision = 'ansible'
   if windows_host #verify is if a windows host

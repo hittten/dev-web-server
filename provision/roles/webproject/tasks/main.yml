@@ -36,6 +36,13 @@
     - restart apache2
     - restart php-fpm
 
+#- name: "{{ domain }} - Apache virtual host file"
+#  become: yes
+#  template: src=apache.virtual.host.let_ssl.conf.j2 dest=/etc/apache2/sites-available/{{ domain }}.conf owner=root group=root mode=644
+#  notify:
+#    - restart apache2
+#    - restart php-fpm
+
 - name: "{{ domain }} - Apache enable site"
   become: yes
   command: a2ensite {{ domain }}.conf

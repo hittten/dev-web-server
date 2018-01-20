@@ -1,0 +1,26 @@
+---
+- hosts: geowhim-landing-prod
+  become_method: sudo
+  vars:
+      user: bitnami
+      home: /home/{{ user }}
+      ansible_processor_vcpus: 3
+
+  roles:
+      - { role: common, tags: common }
+      - { role: webtier, tags: webtier }
+      - { role: dbtier, tags: dbtier }
+      - { role: certbot, tags: ssl }
+      - {
+          role: webproject,
+          domain: 'api.geowhim.com',
+          ssl: 'false',
+          let_ssl: 'true',
+#          repository: 'git@github.com:Viesgo/TOONWEB.git',
+#          version: 'pre',
+          workspace: '/home/{{ user }}/www/{{ domain }}/current',
+          public_html: '{{ workspace }}/web',
+          tags: webproject
+        }
+#sudo apt-get install python python-mysqldb python-apt
+#ansible-playbook -i provision/inventory provision/general.yml --tags common,apache,php,mysql,webproject,ssl --check

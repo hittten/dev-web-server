@@ -1,0 +1,38 @@
+jenkins machine_name=viesgo-jenkins
+icore-dev machine_name=viesgo-icore-dev
+toon-pre machine_name=viesgo-toon-pre
+toon-prod machine_name=viesgo-toon-prod
+zoho-prod machine_name=viesgo-zoho-prod
+zoho-test machine_name=viesgo-zoho-test
+geowhim-landing-prod machine_name=geowhim-landing-prod
+geowhim-api-prod machine_name=geowhim-api-prod
+geowhim-api-dev machine_name=geowhim-api-dev
+geowhim-jenkins machine_name=geowhim-jenkins
+
+[geowhim]
+geowhim-dev
+geowhim-jenkins
+
+[toon]
+toon-pre
+#toon-prod
+
+[zoho]
+#zoho-prod
+zoho-pre
+
+[viesgo:children]
+toon
+zoho
+
+[viesgo]
+icore-dev
+jenkins
+
+[ubuntu:children]
+toon
+
+[ubuntu]
+icore-dev
+jenkins
+#zoho-prod

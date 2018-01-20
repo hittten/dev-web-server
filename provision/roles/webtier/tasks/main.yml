@@ -7,6 +7,8 @@
   tags: php-dev
 - include: composer.yml
   tags: php
+- include: wp-cli.yml
+  tags: php
 - include: npm.yml
   tags: nodejs
 - include: java.yml

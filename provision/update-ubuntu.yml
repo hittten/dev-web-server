@@ -1,0 +1,33 @@
+---
+- hosts: viesgo
+  become_method: sudo
+  vars:
+      user: ubuntu
+      home: /home/{{ user }}
+
+  tasks:
+    - name: Update APT
+      become: True
+      apt:  update_cache=yes cache_valid_time=86400
+
+    - name: Upgrade APT
+      become: True
+      apt:  upgrade=dist cache_valid_time=86400
+
+    - name: Autoremove APT
+      become: True
+      shell: apt-get autoremove
+
+    - name: Autoclean APT
+      become: True
+      command: apt-get autoclean
+
+    - name: Autoclean APT
+      become: True
+      command: apt-get autoclean
+
+    - name: Restart server
+      become: True
+      command: shutdown -r 0
+
+#ansible-playbook -i provision/inventory provision/update-ubuntu.yml --check
