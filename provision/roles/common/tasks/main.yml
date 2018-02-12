@@ -2,7 +2,7 @@
 - name: Set Locale
   locale_gen: name=en_US.UTF-8 state=present
 
-- include: packages.yml
+- include_tasks: packages.yml
   tags: packages
-- include: dotfiles.yml
+- include_tasks: dotfiles.yml
   tags: dotfiles

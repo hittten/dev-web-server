@@ -1,7 +1,7 @@
 ---
-- include: mysql.yml
+- include_tasks: mysql.yml
   tags: mysql
-- include: mongodb.yml
+- include_tasks: mongodb.yml
   tags: mongodb
-- include: elasticsearch.yml
+- include_tasks: elasticsearch.yml
   tags: elasticsearch

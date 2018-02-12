@@ -2,7 +2,7 @@
 - hosts: all
   become_method: sudo
   vars:
-      user: ubuntu
+      user: vagrant
       home: /home/{{ user }}
   roles:
   {% for project in projects %}

@@ -25,9 +25,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   if windows_host #verify is if a windows host
     config.vm.synced_folder '.', '/vagrant', type: 'smb' #, :mount_options => ['dmode=775', 'fmode=664'] #TODO: vagrant ask password for admin user, this return "Error! Your console doesn't support hiding input. We'll ask for input again below, but we WILL NOT be able to hide input. If this is a problem for you, ctrl-C to exit and fix your stdin."
-    config.vm.synced_folder '../..', '/home/ubuntu/Workspace', type: 'smb' #, :mount_options => ['dmode=775', 'fmode=664']
+    config.vm.synced_folder '../..', '/home/vagrant/Workspace', type: 'smb' #, :mount_options => ['dmode=775', 'fmode=664']
   else
-    config.vm.synced_folder '../..', '/home/ubuntu/Workspace', type: 'nfs', :mount_options => ['actimeo=2', 'rw', 'vers=3', 'tcp', 'fsc']
+    config.vm.synced_folder '../..', '/home/vagrant/Workspace', type: 'nfs', :mount_options => ['actimeo=2', 'rw', 'vers=3', 'tcp', 'fsc']
   end
 
   config.vm.provider 'virtualbox' do |vb|

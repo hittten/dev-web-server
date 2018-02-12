@@ -114,18 +114,18 @@ _config/projects.yml_ example:
 ---
 projects:
     - {
-      domain: 'domain.com.dev',
+      domain: 'local.domain.com',
       ssl: 'false',
       repository: 'git@github.com:vendor/repository.git',
       version: 'dev',
-      workspace: '/home/ubuntu/Workspace/vendor/domain.com.dev',
-      public_html: '/home/ubuntu/Workspace/vendor/domain.com.dev/web',
-      script: 'cd /home/ubuntu/Workspace/vendor/domain.com.dev && yes | composer install --no-interaction'
+      workspace: '/home/vagrant/Workspace/vendor/domain.com',
+      public_html: '/home/vagrant/Workspace/vendor/domain.com/web',
+      script: 'cd /home/vagrant/Workspace/vendor/domain.com && yes | composer install --no-interaction'
     }
     - {
-      domain: 'other.domain.com.dev',
+      domain: 'local.other.domain.com',
       ssl: 'true',
-      workspace: '/home/ubuntu/Workspace/vendor/other.domain.com.dev',
+      workspace: '/home/vagrant/Workspace/vendor/other.domain.com',
     }
 ```
 - If you build a project with ssl, you must put the crt file and key file in _**(../dev-web-server/config/ssl/)**_ path with the same name of the `domain` parameter:

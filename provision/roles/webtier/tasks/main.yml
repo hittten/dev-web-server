@@ -1,15 +1,15 @@
 ---
-- include: apache2.yml
+- include_tasks: apache2.yml
   tags: apache
-- include: php.yml
+- include_tasks: php.yml
   tags: php
-- include: composer.yml
+- include_tasks: composer.yml
   tags: php
-- include: npm.yml
+- include_tasks: npm.yml
   tags: nodejs
-- include: java.yml
+- include_tasks: java.yml
   tags: java
-- include: python.yml
+- include_tasks: python.yml
   tags: python
-- include: ruby.yml
+- include_tasks: ruby.yml
   tags: ruby
